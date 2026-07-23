@@ -122,6 +122,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:13px 14px;margin-bottom:12px;display:flex;align-items:center;gap:13px;position:relative;transition:transform .15s ease}
 .card:active{transform:scale(.985)}
 .card.is-done{background:#F6FBF9}
+.card.just-done{animation:justdone .5s cubic-bezier(.2,1.2,.4,1)}
+@keyframes justdone{0%{transform:scale(1)}35%{transform:scale(1.035)}100%{transform:scale(1)}}
+.card.just-done .check{background:var(--mint)!important;border-color:var(--mint)!important;color:#fff!important;animation:checkpop .45s cubic-bezier(.2,1.5,.4,1)}
+@keyframes checkpop{0%{transform:scale(.4)}55%{transform:scale(1.25)}100%{transform:scale(1)}}
+.daymsg{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:12px 15px;margin-bottom:12px;font-size:14.5px;color:var(--ink-soft);font-family:"Zen Maru Gothic";font-weight:500}
+.daymsg b{color:var(--sun-deep);font-weight:700}
+.allclear{background:var(--mint-soft);border-radius:16px;padding:16px;text-align:center;font-family:"Zen Maru Gothic";font-weight:700;font-size:16px;color:var(--mint);margin-bottom:12px;border:1.5px solid #C8EBDC}
+.allclear .sub2{font-size:13.5px;color:var(--ink-soft);font-weight:500}
+.restbar{background:#FFF4E4;border:1.5px solid #FCE1B8;border-radius:16px;padding:15px;text-align:center;font-family:"Zen Maru Gothic";font-weight:700;font-size:15.5px;color:#A9843F;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.restbar b{font-size:20px;color:var(--sun-deep)}
+.restbar.done2{background:var(--mint-soft);border-color:#C8EBDC;color:var(--mint);cursor:default}
 .datebadge{flex:none;width:60px;height:66px;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EEF5F7;line-height:1}
 .datebadge .dm{font-family:"Zen Maru Gothic";font-weight:700;font-size:11px;color:var(--ink-soft)}
 .datebadge .dd{font-family:"Fredoka";font-weight:700;font-size:27px;color:var(--ink);margin:2px 0}
@@ -156,16 +167,64 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .diary-check{background:var(--sun);color:#fff;font-family:"Zen Maru Gothic";font-weight:700;border-radius:15px;padding:15px 46px;font-size:19px;margin-top:15px;box-shadow:0 6px 16px rgba(245,166,75,.4);transition:transform .15s}
 .diary-check:active{transform:scale(.96)}
 .diary-check.done{background:var(--mint);box-shadow:0 6px 16px rgba(63,185,138,.35)}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:7px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:6px}
 .cal .dh{text-align:center;font-size:11.5px;color:var(--ink-soft);font-weight:700;padding:3px 0}
-.cal .cell{aspect-ratio:1;border-radius:10px;background:#F1F6F7;display:grid;place-items:center;font-family:"Fredoka";font-size:14px;color:#A9BCC5;position:relative}
+.cal .cell{aspect-ratio:1;border-radius:9px;background:#F1F6F7;display:grid;place-items:center;font-family:"Fredoka";font-size:13px;color:#A9BCC5;position:relative}
 .cal .cell.filled{background:var(--mint);color:#fff}
 .cal .cell.today{box-shadow:0 0 0 2.5px var(--sun)}
 .cal .cell.blank{background:transparent}
 .cal .cell.piano-full{background:#8362B0;color:#fff}
 .cal .cell.piano-late{background:#E4D9F2;color:#6B4E97}
 .cal .cell.piano-late::after{content:"🔁";position:absolute;bottom:-1px;right:0;font-size:9px}
+.todaybtns{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:13px}
+.tbtn{background:#FFF4E4;border:2px solid #FCE1B8;border-radius:16px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;transition:transform .12s}
+.tbtn:active{transform:scale(.96)}
+.tbtn .te{font-size:30px;line-height:1}
+.tbtn .tl{font-family:"Zen Maru Gothic";font-weight:700;font-size:13.5px;color:var(--ink)}
+.tbtn .ts{font-family:"Zen Maru Gothic";font-weight:700;font-size:12.5px;color:#A9843F;background:#fff;border-radius:999px;padding:4px 12px;margin-top:2px}
+.tbtn.piano{background:#F4EFFA;border-color:#DCCDF0}
+.tbtn.piano .ts{color:#6B4E97}
+.tbtn.on{background:var(--mint-soft);border-color:#9FDCC4}
+.tbtn.on .ts{color:var(--mint)}
+.makeup{margin-top:12px;background:#F4EFFA;border:1.5px solid #DCCDF0;border-radius:14px;padding:13px}
+.mk-h{font-family:"Zen Maru Gothic";font-weight:700;font-size:14px;color:#6B4E97}
+.mk-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.mk-btn{background:#fff;border:1.5px solid #DCCDF0;border-radius:11px;padding:9px 14px;font-family:"Zen Maru Gothic";font-weight:700;font-size:13px;color:#6B4E97}
+.mk-btn:active{transform:scale(.95)}
+.caltabs{display:flex;gap:7px;background:#F1F6F7;border-radius:13px;padding:5px}
+.ct{flex:1;border-radius:10px;padding:9px 4px;font-family:"Zen Maru Gothic";font-weight:700;font-size:13px;color:var(--ink-soft);transition:all .18s}
+.ct.on{background:#fff;color:var(--ink);box-shadow:var(--shadow)}
+.calhead{display:flex;align-items:flex-start;gap:10px;margin:13px 2px 9px}
+.calhead #calDesc{flex:1;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.calhead #calDesc b{font-family:"Zen Maru Gothic";font-weight:700;color:#6B4E97}
+.calcount{flex:none;font-family:"Fredoka";font-weight:700;font-size:17px;color:var(--sun-deep);background:#FFF4E4;border-radius:999px;padding:4px 13px}
+.legend .lg.e1{background:#FDE7C7} .legend .lg.e2{background:#F8C97E} .legend .lg.e3{background:#F5A64B}
+.legend .lg.dfull{background:var(--mint)}
 .cal .cell.tappable{cursor:pointer}
+.cal .cell.eff1{background:#FDE7C7;color:#A9843F}
+.cal .cell.eff2{background:#F8C97E;color:#7A5A20}
+.cal .cell.eff3{background:#F5A64B;color:#fff}
+.daydetail{position:fixed;left:0;right:0;bottom:calc(72px + env(safe-area-inset-bottom));z-index:55;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:2px solid var(--sun);box-shadow:0 -6px 24px rgba(42,59,69,.16);padding:11px 14px calc(11px);display:none;animation:sheetup .28s cubic-bezier(.2,1,.4,1)}
+.daydetail.show{display:block}
+@keyframes sheetup{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+.dd-top{display:flex;align-items:center;gap:9px}
+.dd-h{font-family:"Zen Maru Gothic";font-weight:700;font-size:15px;flex:none}
+.dd-h span{font-size:11.5px;color:var(--ink-soft);font-weight:500;margin-left:3px}
+.dd-close{margin-left:auto;width:26px;height:26px;border-radius:50%;background:#EEF5F7;color:var(--ink-soft);font-size:14px;display:grid;place-items:center;flex:none}
+.dd-empty{font-size:13px;color:var(--ink-soft)}
+.dd-list{display:flex;gap:7px;overflow-x:auto;padding:2px 0 1px;-webkit-overflow-scrolling:touch}
+.dd-item{display:flex;align-items:center;gap:6px;background:#F6FAFB;border-radius:999px;padding:7px 12px;font-size:13px;font-family:"Zen Maru Gothic";font-weight:700;white-space:nowrap;flex:none;border:1.5px solid var(--line)}
+.dd-item span{font-size:16px}
+.dd-item b{font-size:10.5px;padding:2px 7px;border-radius:999px}
+.dd-item.done{border-color:#C8EBDC}
+.dd-item.done b{background:var(--mint-soft);color:var(--mint)}
+.dd-item.effort{border-color:#FCE1B8}
+.dd-item.effort b{background:#FFF1DC;color:var(--sun-deep)}
+.cal .cell.sel{box-shadow:0 0 0 3px var(--sun);z-index:1}
+.effort{margin-top:9px;background:#FFF4E4;border:1.5px solid #FCE1B8;border-radius:11px;padding:8px 15px;font-family:"Zen Maru Gothic";font-weight:700;font-size:13.5px;color:#A9843F;transition:transform .12s}
+.effort:active{transform:scale(.95)}
+.effort.on{background:var(--mint-soft);border-color:#C8EBDC;color:var(--mint)}
+body.role-parent .effort{opacity:.5;pointer-events:none}
 .pn{font-size:13px;color:var(--ink-soft);margin-top:7px;line-height:1.5}
 .pn b{font-family:"Zen Maru Gothic";font-weight:700;color:#6B4E97}
 .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--ink-soft)}
@@ -200,6 +259,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .settings{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
 .settings .sh2{font-family:"Zen Maru Gothic";font-weight:700;font-size:15px}
 .settings button{margin-top:12px;background:#EEF5F7;border-radius:12px;padding:11px 18px;font-family:"Zen Maru Gothic";font-weight:700;font-size:14px;color:var(--ink-soft)}
+.guidelink{display:block;margin-top:12px;background:#FFF4E4;border:1.5px solid #FCE1B8;border-radius:12px;padding:12px 18px;font-family:"Zen Maru Gothic";font-weight:700;font-size:14.5px;color:#A9843F;text-decoration:none;text-align:center}
+body.role-parent .guidelink.parent-only{display:block}
+.settings button.danger{background:#FFE7E1;color:#C0392B;border:1.5px solid #FFD3C9}
 
 .nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;padding:9px 8px calc(9px + env(safe-area-inset-bottom));z-index:50}
 .nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px;border-radius:12px;color:var(--ink-soft);font-size:12px;font-weight:700;font-family:"Zen Maru Gothic"}
@@ -217,6 +279,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 .page{display:none;animation:fade .35s ease}
 .page.on{display:block}
+body.sheet-open .wrap{padding-bottom:calc(180px + env(safe-area-inset-bottom))}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
 /* role-based visibility */
@@ -281,8 +344,7 @@ body.role-parent .check,body.role-parent .rbtn,body.role-parent .countbtns{opaci
     </div>
 
     <div class="child-only" id="alertZone"></div>
-    <div class="sec-h child-only"><h2>きょうの おすすめ</h2><span class="cnt" id="recCnt"></span></div>
-    <div class="child-only" id="recList"></div>
+    <div class="sec-h child-only"><h2>きょうの おすすめ</h2><span class="cnt" id="recCnt"></span></div>    <div class="child-only" id="recList"></div>
   </div>
 
   <div class="page" id="page-tasks">
@@ -297,33 +359,30 @@ body.role-parent .check,body.role-parent .rbtn,body.role-parent .countbtns{opaci
   </div>
 
   <div class="page" id="page-diary">
-    <div class="diary-box" style="text-align:center">
-      <div class="q" style="justify-content:center">📔 きょうの ひとこと日記</div>
-      <div style="font-size:13.5px;color:var(--ink-soft);margin-top:7px" class="child-only">ノートに 手で かいたら、ここを おそう</div>
-      <div style="font-size:13.5px;color:var(--ink-soft);margin-top:7px" class="parent-only">つばきが かいたら、カレンダーが うまります</div>
-      <button class="diary-check" id="diaryBtn" onclick="toggleDiaryToday()">かいた！</button>
-    </div>
     <div class="diary-box">
-      <div class="q" style="font-size:15px">かけた日 <span class="num" id="diaryCount" style="color:var(--mint);margin-left:4px"></span></div>
-      <div id="diaryCal"></div>
+      <div class="q" style="font-size:16px">きょうの きろく</div>
+      <div class="todaybtns">
+        <button class="tbtn diary" id="diaryBtn" onclick="toggleDiaryToday()">
+          <span class="te">📔</span><span class="tl">ひとこと日記</span><span class="ts" id="diaryState">かいた！</span>
+        </button>
+        <button class="tbtn piano" id="pianoBtn" onclick="togglePianoToday()">
+          <span class="te">🎹</span><span class="tl">ピアノ</span><span class="ts" id="pianoState">れんしゅう した！</span>
+        </button>
+      </div>
+      <div class="pn child-only" style="margin-top:10px">しゅくだいの「きょう やった」は <b>📋かだい</b> から</div>
+      <div id="makeupZone"></div>
     </div>
 
-    <div class="diary-box" style="text-align:center">
-      <div class="q" style="justify-content:center">🎹 きょうの ピアノ れんしゅう</div>
-      <div style="font-size:13.5px;color:var(--ink-soft);margin-top:7px" class="child-only">れんしゅう したら、ここを おそう</div>
-      <div style="font-size:13.5px;color:var(--ink-soft);margin-top:7px" class="parent-only">つばきが れんしゅうすると うまります</div>
-      <button class="diary-check piano" id="pianoBtn" onclick="togglePianoToday()">れんしゅう した！</button>
-    </div>
     <div class="diary-box">
-      <div class="q" style="font-size:15px">れんしゅう した日 <span class="num" id="pianoCount" style="color:#8362B0;margin-left:4px"></span></div>
-      <div class="pn child-only">やれなかった日を あとから おしても OK。<b>あとから やった日</b>は 🔁 が つくよ</div>
-      <div class="pn parent-only">🔁 は あとから とりもどした日です</div>
-      <div id="pianoCal"></div>
-      <div class="legend">
-        <span><i class="lg full"></i>その日に できた</span>
-        <span><i class="lg late"></i>🔁 あとから やった</span>
-        <span><i class="lg none"></i>まだ</span>
+      <div class="caltabs">
+        <button class="ct on" data-c="effort" onclick="calTab('effort')">🔥 がんばった</button>
+        <button class="ct" data-c="diary" onclick="calTab('diary')">📔 日記</button>
+        <button class="ct" data-c="piano" onclick="calTab('piano')">🎹 ピアノ</button>
       </div>
+      <div class="calhead"><span id="calDesc"></span><span class="calcount num" id="calCount"></span></div>
+      <div class="cal" id="mainCal"></div>
+      <div class="legend" id="calLegend"></div>
+      <div class="daydetail" id="dayDetail"></div>
     </div>
   </div>
 
@@ -336,7 +395,13 @@ body.role-parent .check,body.role-parent .rbtn,body.role-parent .countbtns{opaci
     <div class="parent"><h3>👨‍👩‍👧 おうちの人へ</h3><div class="plist" id="parentList"></div></div>
     <div class="settings">
       <div class="sh2">⚙️ せってい</div>
+      <a class="guidelink child-only" href="guide-tsubaki.html">📖 つかいかたを 見る</a>
+      <a class="guidelink parent-only" href="guide-parent.html">📖 保護者用ガイドを見る</a>
       <button onclick="switchRole()">やくわりを かえる（いま：<span id="roleNow"></span>）</button>
+      <div class="parent-only" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+        <div style="font-size:12.5px;color:var(--ink-soft);line-height:1.5">記録をすべて消して、最初の状態に戻します。<br>家族全員の端末に反映されます（元に戻せません）。</div>
+        <button class="danger" onclick="resetAll()">🗑 きろくを ぜんぶ リセット</button>
+      </div>
     </div>
   </div>
 </div>
@@ -393,15 +458,15 @@ function defaults(){return{
     {id:"d_ongaku",g:"done",sub:"おんがく",title:"リコーダー れんしゅう",emoji:"🎵",type:"once",due:null,done:true},
     {id:"s_jishu",g:"self",sub:"じしゅ",title:"自主学習",emoji:"✨",type:"freelog",count:0,note:"夏マスターが おわったら、その日 きめる",done:false}
   ],
-  diary:{}, piano:{}, mood:0, treats:0, stamps:[], cheers:[], milestones:{}, rev:0
+  diary:{}, piano:{}, effort:{}, doneLog:{}, mood:0, treats:0, stamps:[], cheers:[], milestones:{}, todayPick:null, rev:0
 };}
 let S=loadLocal();
 function loadLocal(){try{const r=Store.get(KEY);if(r)return migrate(JSON.parse(r));}catch(e){}return defaults();}
 function migrate(d){const def=defaults();const map={};(d.tasks||[]).forEach(t=>map[t.id]=t);
   def.tasks=def.tasks.map(dt=>Object.assign(dt,map[dt.id]||{}));
   (d.tasks||[]).filter(t=>t.custom).forEach(t=>{if(!def.tasks.find(x=>x.id===t.id))def.tasks.push(t);});
-  def.diary=d.diary||{};def.piano=d.piano||{};def.mood=d.mood||0;def.treats=d.treats||0;def.stamps=d.stamps||[];
-  def.cheers=d.cheers||[];def.milestones=d.milestones||{};def.rev=d.rev||0;return def;}
+  def.diary=d.diary||{};def.piano=d.piano||{};def.effort=d.effort||{};def.doneLog=d.doneLog||{};def.mood=d.mood||0;def.treats=d.treats||0;def.stamps=d.stamps||[];
+  def.cheers=d.cheers||[];def.milestones=d.milestones||{};def.todayPick=d.todayPick||null;def.rev=d.rev||0;return def;}
 
 /* ---------- firebase sync ---------- */
 let roomRef=null, db=null, applyingRemote=false;
@@ -446,6 +511,20 @@ function dateInfo(t){
   return Object.assign(b,{cls:"calm",status:`あと ${dl}にち あるよ`});
 }
 function activeMust(){return S.tasks.filter(t=>t.g==="must");}
+const PICK_N=5;
+// 今日のリストは「その日の朝」に決まり、その日は入れ替わらない（完了しても残る）
+function getTodayPick(){
+  const k=ymd(today());
+  if(S.todayPick&&S.todayPick.date===k&&Array.isArray(S.todayPick.ids)){
+    const ids=S.todayPick.ids.filter(id=>S.tasks.find(t=>t.id===id));
+    if(ids.length)return ids;
+  }
+  const ids=activeMust().filter(t=>!isDone(t)&&t.type!=="daily")
+    .sort((a,b)=>{if(!a.due)return 1;if(!b.due)return -1;return parse(a.due)-parse(b.due);})
+    .slice(0,PICK_N).map(t=>t.id);
+  S.todayPick={date:k,ids};
+  return ids;
+}
 function sortByDue(arr){const key=t=>t.due?parse(t.due).getTime():Infinity;const nd=arr.filter(t=>!isDone(t)).sort((a,b)=>key(a)-key(b));return nd.concat(arr.filter(isDone));}
 function mustProgress(){const a=activeMust();const done=a.filter(isDone).length;return{done,total:a.length,pct:Math.round(done/a.length*100)};}
 
@@ -474,11 +553,45 @@ function checkMilestone(){
   if(natsuDone&&!S.milestones.natsu){S.milestones.natsu=1;addStamp("🏅","夏マスター制覇");setTimeout(()=>celebrate("夏マスター<br>ぜんぶ クリア！🎉"),950);}
   if(allDone&&!S.milestones.all){S.milestones.all=1;addStamp("👑","ぜんぶ達成");setTimeout(()=>celebrate("かだい ぜんぶ<br>おわった！さいこう！👑"),950);}
 }
+function didToday(t){const k=ymd(today());return (S.effort[k]||[]).includes(t.id);}
+function toggleEffort(id){if(!guardChild())return;const t=S.tasks.find(x=>x.id===id);if(!t)return;
+  const k=ymd(today());if(!S.effort[k])S.effort[k]=[];
+  const i=S.effort[k].indexOf(id);
+  if(i>=0){S.effort[k].splice(i,1);if(!S.effort[k].length)delete S.effort[k];save();renderAll();return;}
+  S.effort[k].push(id);reward();addStamp(t.emoji,t.title);save();
+  celebrate("きょうも やった！えらい！");renderAll();}
+function logDone(id){const k=ymd(today());if(!S.doneLog[k])S.doneLog[k]=[];if(!S.doneLog[k].includes(id))S.doneLog[k].push(id);}
+function dayItems(k){
+  const out=[];
+  (S.doneLog[k]||[]).forEach(id=>{const t=S.tasks.find(x=>x.id===id);if(t)out.push({emoji:t.emoji,label:t.title,type:"done"});});
+  (S.effort[k]||[]).forEach(id=>{const t=S.tasks.find(x=>x.id===id);if(t&&!(S.doneLog[k]||[]).includes(id))out.push({emoji:t.emoji,label:t.title,type:"effort"});});
+  if(S.diary[k])out.push({emoji:"📔",label:"ひとこと日記",type:"done"});
+  if(S.piano[k])out.push({emoji:"🎹",label:"ピアノ"+(S.piano[k]==="late"?"（🔁とりもどし）":""),type:"done"});
+  return out;
+}
+
 function toggleTask(id){if(!guardChild())return;const t=S.tasks.find(x=>x.id===id);if(!t||t.type!=="once")return;
-  t.done=!t.done;if(t.done){reward();addStamp(t.emoji,t.title);celebrate();checkMilestone();}save();renderAll();}
+  t.done=!t.done;
+  if(t.done){
+    reward();addStamp(t.emoji,t.title);logDone(id);checkMilestone();
+    // 先に✓を見せる（手応え）→ 少し待ってから並べ替え
+    markCardDone(id);
+    save();
+    setTimeout(()=>{celebrate();},220);
+    setTimeout(()=>{renderAll();},900);
+    return;
+  }
+  save();renderAll();}
+function markCardDone(id){
+  document.querySelectorAll(`[data-tid="${id}"]`).forEach(el=>{
+    el.classList.add("is-done","just-done");
+  });
+}
 function countStep(id,d){if(!guardChild())return;const t=S.tasks.find(x=>x.id===id);if(!t)return;const was=isDone(t);
   t.count=Math.max(0,Math.min(t.target,(t.count||0)+d));if(d>0)reward();
-  if(!was&&isDone(t)){addStamp(t.emoji,t.title);celebrate(`${t.target}さつ よんだ！`);checkMilestone();}else if(d>0)celebrate(`${t.count}さつめ！`);save();renderAll();}
+  if(!was&&isDone(t)){addStamp(t.emoji,t.title);logDone(id);checkMilestone();markCardDone(id);save();
+    setTimeout(()=>celebrate(`${t.target}さつ よんだ！`),220);setTimeout(()=>renderAll(),900);return;}
+  if(d>0)celebrate(`${t.count}さつめ！`);save();renderAll();}
 function freelog(id){if(!guardChild())return;const t=S.tasks.find(x=>x.id===id);if(!t)return;t.count=(t.count||0)+1;reward();addStamp(t.emoji,"じしゅ学習");celebrate("じしゅ学習 えらい！");save();renderAll();}
 function editDue(id){if(!guardChild())return;const t=S.tasks.find(x=>x.id===id);if(!t)return;const v=prompt("いつ やる？（れい：2026-08-05）",t.due||ymd(today()));
   if(v&&/^\d{4}-\d{2}-\d{2}$/.test(v)){t.due=v;save();renderAll();}else if(v){alert("2026-08-05 の かたちで いれてね");}}
@@ -487,35 +600,92 @@ function addOwn(){if(!guardChild())return;const name=prompt("なにを けいか
   S.tasks.push({id:"c_"+Date.now(),g:"self",sub:"じぶんで",title:name,emoji:"⭐",type:"once",due:(due&&/^\d{4}-\d{2}-\d{2}$/.test(due))?due:null,done:false,custom:true});
   save();renderAll();celebrate("けいかく たてた！");}
 function toggleDiaryToday(){if(!guardChild())return;const k=ymd(today());
-  if(S.diary[k]){delete S.diary[k];save();renderMood();renderDiaryCal();renderHome();renderKiroku();return;}
-  S.diary[k]=true;reward();addStamp("📔","日記");save();renderMood();renderDiaryCal();renderHome();renderKiroku();celebrate("日記 かけた！");}
+  if(S.diary[k]){delete S.diary[k];save();renderMood();renderMainCal();renderTodayBtns();renderHome();renderKiroku();return;}
+  S.diary[k]=true;reward();addStamp("📔","日記");save();renderMood();renderMainCal();renderTodayBtns();renderHome();renderKiroku();celebrate("日記 かけた！");}
 
 function togglePianoToday(){if(!guardChild())return;const k=ymd(today());
-  if(S.piano[k]){delete S.piano[k];save();renderMood();renderPianoCal();renderKiroku();return;}
-  S.piano[k]="on";reward();addStamp("🎹","ピアノ");save();renderMood();renderPianoCal();renderKiroku();celebrate("ピアノ れんしゅう！🎹");}
+  if(S.piano[k]){delete S.piano[k];save();renderMood();renderMainCal();renderTodayBtns();renderKiroku();return;}
+  S.piano[k]="on";reward();addStamp("🎹","ピアノ");save();renderMood();renderMainCal();renderTodayBtns();renderKiroku();celebrate("ピアノ れんしゅう！🎹");}
 
-function togglePianoDay(k){if(!guardChild())return;
-  const tdy=ymd(today());
-  if(k===tdy){togglePianoToday();return;}
-  if(parse(k)>today()){toast("まだ さきの日だよ");return;}
-  if(S.piano[k]){delete S.piano[k];save();renderMood();renderPianoCal();renderKiroku();return;}
-  S.piano[k]="late";reward();addStamp("🔁","ピアノ とりもどし");save();renderMood();renderPianoCal();renderKiroku();
-  const d=parse(k);celebrate(`${d.getMonth()+1}/${d.getDate()}の ぶんも やった！🔁`);}
-
-function renderPianoCal(){
-  const done=!!S.piano[ymd(today())];const btn=document.getElementById("pianoBtn");
-  if(btn){btn.textContent=done?"れんしゅう した！✓":"れんしゅう した！";btn.classList.toggle("done",done);}
-  const keys=Object.keys(S.piano);
-  const full=keys.filter(k=>S.piano[k]==="on").length, late=keys.filter(k=>S.piano[k]==="late").length;
-  document.getElementById("pianoCount").textContent=keys.length+"日"+(late?`（🔁${late}）`:"");
+let CALMODE="effort";
+function calTab(m){CALMODE=m;document.querySelectorAll(".ct").forEach(b=>b.classList.toggle("on",b.dataset.c===m));renderMainCal();}
+function renderMainCal(){
   const start=parse(VAC_START),end=parse(VAC_END),tdy=ymd(today());
   const cells=['<div class="dh">日</div><div class="dh">月</div><div class="dh">火</div><div class="dh">水</div><div class="dh">木</div><div class="dh">金</div><div class="dh">土</div>'];
   for(let i=0;i<start.getDay();i++)cells.push('<div class="cell blank"></div>');
-  for(let d=new Date(start);d<=end;d.setDate(d.getDate()+1)){const k=ymd(d);
-    const st=S.piano[k];const cls=st==="on"?"piano-full":st==="late"?"piano-late":"";
-    const future=parse(k)>today();
-    cells.push(`<div class="cell ${cls} ${k===tdy?"today":""} ${future?"":"tappable"}" ${future?"":`onclick="togglePianoDay('${k}')"`}>${d.getDate()}</div>`);}
-  document.getElementById("pianoCal").innerHTML=cells.join("");
+  let cnt=0,late=0;
+  for(let d=new Date(start);d<=end;d.setDate(d.getDate()+1)){
+    const k=ymd(d),future=parse(k)>today();
+    let cls="",click="";
+    if(CALMODE==="effort"){
+      const n=dayItems(k).length;if(n)cnt++;
+      cls=n===0?"":n>=3?"eff3":n===2?"eff2":"eff1";
+      click=future?"":`onclick="showDay('${k}')"`;
+    }else if(CALMODE==="diary"){
+      if(S.diary[k]){cls="filled";cnt++;}
+      click=future?"":`onclick="showDay('${k}')"`;
+    }else{
+      const st=S.piano[k];if(st){cnt++;if(st==="late")late++;}
+      cls=st==="on"?"piano-full":st==="late"?"piano-late":"";
+      click=future?"":`onclick="showDay('${k}')"`;
+    }
+    cells.push(`<div class="cell ${cls} ${k===tdy?"today":""} ${future?"":"tappable"}" data-k="${k}" ${click}>${d.getDate()}</div>`);
+  }
+  document.getElementById("mainCal").innerHTML=cells.join("");
+  const desc={effort:"1つでも きろくすると いろが つくよ。日を おすと やったことが 見られる",
+              diary:"日記を かいた日が みどりに なるよ",
+              piano:"れんしゅう した日が むらさきに なるよ（🔁＝あとから とりもどした日）"};
+  document.getElementById("calDesc").innerHTML=desc[CALMODE];
+  document.getElementById("calCount").textContent=cnt+"日"+(CALMODE==="piano"&&late?`（🔁${late}）`:"");
+  const lg={effort:'<span><i class="lg e1"></i>1つ</span><span><i class="lg e2"></i>2つ</span><span><i class="lg e3"></i>3つ いじょう</span>',
+            diary:'<span><i class="lg dfull"></i>かけた日</span><span><i class="lg none"></i>まだ</span>',
+            piano:'<span><i class="lg full"></i>その日に できた</span><span><i class="lg late"></i>🔁 あとから</span><span><i class="lg none"></i>まだ</span>'};
+  document.getElementById("calLegend").innerHTML=lg[CALMODE];
+  const dd=document.getElementById("dayDetail");
+  if(dd&&dd.dataset.k)showDay(dd.dataset.k);
+}
+function showDay(k,quiet){
+  const dd=document.getElementById("dayDetail");if(!dd)return;
+  dd.dataset.k=k;dd.classList.add("show");document.body.classList.add("sheet-open");
+  document.querySelectorAll("#mainCal .cell").forEach(c=>c.classList.remove("sel"));
+  const cell=document.querySelector(`#mainCal .cell[data-k="${k}"]`);if(cell)cell.classList.add("sel");
+  const items=dayItems(k),d=parse(k);
+  const head=`<div class="dd-top"><div class="dd-h">${d.getMonth()+1}/${d.getDate()}<span>${WD[d.getDay()]}</span></div>`
+    +(items.length?`<div class="dd-list">`+items.map(i=>`<div class="dd-item ${i.type}"><span>${i.emoji}</span>${i.label}<b>${i.type==="done"?"できた":"やった"}</b></div>`).join("")+`</div>`
+                  :`<div class="dd-empty">この日は まだ きろくが ないよ</div>`)
+    +`<button class="dd-close" onclick="closeDay()">×</button></div>`;
+  dd.innerHTML=head;
+}
+function closeDay(){const dd=document.getElementById("dayDetail");if(!dd)return;
+  dd.classList.remove("show");delete dd.dataset.k;document.body.classList.remove("sheet-open");
+  document.querySelectorAll("#mainCal .cell").forEach(c=>c.classList.remove("sel"));}
+function renderTodayBtns(){
+  const dk=!!S.diary[ymd(today())], pk=!!S.piano[ymd(today())];
+  const db=document.getElementById("diaryBtn"), pb=document.getElementById("pianoBtn");
+  if(db){db.classList.toggle("on",dk);document.getElementById("diaryState").textContent=dk?"かけた！✓":"かいた！";}
+  if(pb){pb.classList.toggle("on",pk);document.getElementById("pianoState").textContent=pk?"できた！✓":"れんしゅう した！";}
+  // ピアノのやり残し（直近7日以内・未記録の日）を明示ボタンで取り戻す
+  const mz=document.getElementById("makeupZone");if(!mz)return;
+  const start=parse(VAC_START);const miss=[];
+  for(let i=1;i<=7;i++){const d=new Date(today());d.setDate(d.getDate()-i);
+    if(d<start)break;const k=ymd(d);if(!S.piano[k])miss.push(k);}
+  if(!miss.length||ROLE!=="child"){mz.innerHTML="";return;}
+  mz.innerHTML=`<div class="makeup"><div class="mk-h">🎹 やれなかった日の ぶんを やった？</div>
+    <div class="mk-list">`+miss.slice(0,4).map(k=>{const d=parse(k);
+      return `<button class="mk-btn" onclick="makeupPiano('${k}')">${d.getMonth()+1}/${d.getDate()}の ぶん</button>`;}).join("")+`</div></div>`;
+}
+function makeupPiano(k){if(!guardChild())return;
+  S.piano[k]="late";reward();addStamp("🔁","ピアノ とりもどし");save();
+  const d=parse(k);celebrate(`${d.getMonth()+1}/${d.getDate()}の ぶんも やった！🔁`);renderAll();}
+
+function resetAll(){
+  if(ROLE!=="parent"){toast("おうちの人モードで できます");return;}
+  if(!confirm("きろくを すべて消して、最初の状態に戻します。\n家族全員の端末に反映され、元に戻せません。\n\nよろしいですか？"))return;
+  if(!confirm("本当にリセットしますか？\n（日記・ピアノ・チェック・スタンプ・応援がすべて消えます）"))return;
+  const fresh=defaults();
+  S=fresh;S.rev=(S.rev||0)+1;
+  Store.set(KEY,JSON.stringify(S));pushRemote();
+  closeDay();renderAll();toast("リセットしました");
 }
 
 function sendCheer(emoji,label){if(ROLE!=="parent"){toast("おうちの人モードで おくれるよ");return;}
@@ -557,9 +727,12 @@ function taskCard(t){
   const canEdit=t.type==="once"&&t.g!=="done";
   const editLink=canEdit?`<span class="editdue" onclick="event.stopPropagation();editDue('${t.id}')">日を かえる</span>`:"";
   const clickable=t.type==="once"?`onclick="toggleTask('${t.id}')"`:"";
-  return `<div class="card ${done?'is-done':''}" ${clickable}>
+  const showEffort=!done&&t.g!=="done"&&t.type!=="daily"&&t.type!=="freelog";
+  const et=didToday(t);
+  const effortBtn=showEffort?`<button class="effort ${et?'on':''}" onclick="event.stopPropagation();toggleEffort('${t.id}')">${et?'きょう やった ✓':'きょう やった'}</button>`:"";
+  return `<div class="card ${done?'is-done':''}" data-tid="${t.id}" ${clickable}>
     <div class="datebadge ${di.cls}"><span class="dm">${di.dm}</span><span class="dd num">${di.dd}</span><span class="du">${di.du}</span></div>
-    <div class="tinfo"><div class="sub">${t.emoji} ${t.sub}</div><div class="ti">${t.title}</div><div class="dstatus ${di.cls}">${di.status}${editLink}</div>${extra}</div>
+    <div class="tinfo"><div class="sub">${t.emoji} ${t.sub}</div><div class="ti">${t.title}</div><div class="dstatus ${di.cls}">${di.status}${editLink}</div>${extra}${effortBtn}</div>
     ${right}
   </div>`;
 }
@@ -588,9 +761,25 @@ function renderHome(){
     if(!S.piano[ymd(t)])az.innerHTML+=`<div class="alert soft"><span class="ic">🎹</span><div class="msg">きょうの <b>ピアノ れんしゅう</b>、まだだよ。<span class="linklike" onclick="go('diary')">きろくする</span></div></div>`;
   }
   const rl=document.getElementById("recList");
-  if(rl){const rec=activeMust().filter(x=>!isDone(x)&&x.type!=="daily").sort((a,b)=>{if(!a.due)return 1;if(!b.due)return -1;return parse(a.due)-parse(b.due);}).slice(0,3);
-    document.getElementById("recCnt").textContent=rec.length+"こ";
-    rl.innerHTML=rec.length?rec.map(taskCard).join(""):`<div class="card" style="justify-content:center"><div class="tinfo" style="text-align:center"><div class="ti" style="color:var(--mint)">ぜんぶ できてる！さいこう！🎉</div></div></div>`;}
+  if(rl){
+    const ids=getTodayPick();
+    const picks=ids.map(id=>S.tasks.find(x=>x.id===id)).filter(Boolean);
+    const undone=picks.filter(x=>!isDone(x)), done=picks.filter(isDone);
+    const ordered=undone.concat(done);
+    document.getElementById("recCnt").textContent=`${done.length}/${picks.length}`;
+    const others=activeMust().filter(x=>!isDone(x)&&x.type!=="daily"&&!ids.includes(x.id)).length;
+    let html="";
+    if(picks.length){
+      html+=`<div class="daymsg">🐾 きょうは なにを やる？ <b>じぶんで きめよう</b></div>`;
+      html+=ordered.map(taskCard).join("");
+      if(undone.length===0)html+=`<div class="allclear">きょうの ${picks.length}こ ぜんぶ できた！すごい！🎉<br><span class="sub2">${others>0?`ほかの かだいも 見てみる？`:``}</span></div>`;
+      if(others>0)html+=`<div class="restbar" onclick="go('tasks')">ほかにも のこり <b class="num">${others}</b>こ あるよ　<span class="linklike">📋 かだいを 見る</span></div>`;
+      else if(undone.length===0)html+=`<div class="restbar done2">かならず やる かだいは ぜんぶ おわり！👑</div>`;
+    }else{
+      html=`<div class="card" style="justify-content:center"><div class="tinfo" style="text-align:center"><div class="ti" style="color:var(--mint)">ぜんぶ できてる！さいこう！🎉</div></div></div>`;
+    }
+    rl.innerHTML=html;
+  }
 }
 function renderTasks(){
   const must=activeMust();document.getElementById("mustList").innerHTML=sortByDue(must).map(taskCard).join("");
@@ -598,16 +787,6 @@ function renderTasks(){
   document.getElementById("selfList").innerHTML=sortByDue(S.tasks.filter(t=>t.g==="self")).map(taskCard).join("");
   const done=S.tasks.filter(t=>t.g==="done");document.getElementById("doneList").innerHTML=done.map(taskCard).join("");
   document.getElementById("doneCnt").textContent=done.length+"こ";
-}
-function renderDiaryCal(){
-  const done=!!S.diary[ymd(today())];const btn=document.getElementById("diaryBtn");
-  if(btn){btn.textContent=done?"かけた！✓":"かいた！";btn.classList.toggle("done",done);}
-  document.getElementById("diaryCount").textContent=Object.keys(S.diary).length+"日";
-  const start=parse(VAC_START),end=parse(VAC_END),tdy=ymd(today());
-  const cells=['<div class="dh">日</div><div class="dh">月</div><div class="dh">火</div><div class="dh">水</div><div class="dh">木</div><div class="dh">金</div><div class="dh">土</div>'];
-  for(let i=0;i<start.getDay();i++)cells.push('<div class="cell blank"></div>');
-  for(let d=new Date(start);d<=end;d.setDate(d.getDate()+1)){const k=ymd(d);cells.push(`<div class="cell ${S.diary[k]?"filled":""} ${k===tdy?"today":""}">${d.getDate()}</div>`);}
-  document.getElementById("diaryCal").innerHTML=cells.join("");
 }
 function renderKiroku(){
   document.getElementById("statTreats").textContent=S.treats;
@@ -619,6 +798,8 @@ function renderKiroku(){
   const p=mustProgress();
   const upcoming=activeMust().filter(x=>!isDone(x)&&x.due).sort((a,b)=>parse(a.due)-parse(b.due)).slice(0,4);
   let rows=`<div class="prow"><span>ぜんたいの しんちょく</span><span class="pv" style="color:var(--mint)">${p.done}/${p.total}（${p.pct}%）</span></div>`;
+  const days=new Set([...Object.keys(S.effort||{}),...Object.keys(S.doneLog||{}),...Object.keys(S.diary||{}),...Object.keys(S.piano||{})]).size;
+  rows+=`<div class="prow"><span>🔥 がんばった日</span><span class="pv" style="color:var(--sun-deep)">${days}日</span></div>`;
   rows+=`<div class="prow"><span>ひとこと日記</span><span class="pv">${Object.keys(S.diary).length}日 ぶん</span></div>`;
   const pk=Object.keys(S.piano||{});const plate=pk.filter(k=>S.piano[k]==="late").length;
   rows+=`<div class="prow"><span>🎹 ピアノ れんしゅう</span><span class="pv" style="color:var(--plum)">${pk.length}日${plate?`（🔁${plate}）`:""}</span></div>`;
@@ -627,13 +808,13 @@ function renderKiroku(){
   if(!upcoming.length)rows+=`<div class="prow"><span>のこりの かだい</span><span class="pv" style="color:var(--mint)">ぜんぶ できました！</span></div>`;
   document.getElementById("parentList").innerHTML=rows;
 }
-function renderAll(){renderMood();renderHome();renderTasks();renderDiaryCal();renderPianoCal();renderKiroku();}
+function renderAll(){renderMood();renderHome();renderTasks();renderMainCal();renderTodayBtns();renderKiroku();}
 
-function go(p){document.querySelectorAll(".page").forEach(el=>el.classList.remove("on"));document.getElementById("page-"+p).classList.add("on");
+function go(p){closeDay();document.querySelectorAll(".page").forEach(el=>el.classList.remove("on"));document.getElementById("page-"+p).classList.add("on");
   document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("on",b.dataset.p===p));window.scrollTo(0,0);}
 
 /* expose to window (for onclick handlers) */
-Object.assign(window,{go,toggleTask,countStep,freelog,editDue,addOwn,toggleDiaryToday,togglePianoToday,togglePianoDay,sendCheer,sendMessage,chaiTap,hideChai,showChai,selectRole,switchRole});
+Object.assign(window,{go,toggleTask,countStep,freelog,editDue,addOwn,toggleDiaryToday,togglePianoToday,makeupPiano,toggleEffort,showDay,closeDay,calTab,resetAll,sendCheer,sendMessage,chaiTap,hideChai,showChai,selectRole,switchRole});
 
 if(Store.get("chai_hidden")==="1"){const fc=document.getElementById("floatChai");if(fc)fc.style.display="none";document.getElementById("fcShow").classList.add("on");}
 if(!ROLE){document.getElementById("gate").classList.add("on");}else{applyRole();}

@@ -286,7 +286,10 @@ body.sheet-open .wrap{padding-bottom:calc(180px + env(safe-area-inset-bottom))}
 .parent-only{display:none}
 body.role-parent .parent-only{display:block}
 body.role-parent .child-only{display:none}
-body.role-parent .add-btn,body.role-parent .editdue,body.role-parent .diary-check{display:none!important}
+body.role-parent .add-btn,body.role-parent .diary-check{display:none!important}
+.editdue{display:none}
+body.role-parent .editdue{display:inline}
+body.role-parent .editdue{color:var(--sun-deep)}
 body.role-parent .check,body.role-parent .rbtn,body.role-parent .countbtns{opacity:.45;pointer-events:none}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -447,7 +450,7 @@ function defaults(){return{
     {id:"m_rika",g:"must",sub:"夏マスター",title:"理科",emoji:"📓",type:"once",due:"2026-07-31",done:false},
     {id:"m_kanji",g:"must",sub:"トレーニング",title:"漢字計算ブック",emoji:"✏️",type:"once",due:"2026-07-31",done:false},
     {id:"m_ediary",g:"must",sub:"かく",title:"絵日記 1まい",emoji:"🎨",type:"once",due:"2026-08-03",done:false},
-    {id:"m_zuko",g:"must",sub:"さくひん",title:"図工の作品",emoji:"🖌️",type:"once",due:"2026-08-01",done:false},
+    {id:"m_zuko",g:"must",sub:"さくひん",title:"図工の作品",emoji:"🖌️",type:"once",due:"2026-08-27",done:false},
     {id:"m_kokusaku",g:"must",sub:"さくひん",title:"国語の作品",emoji:"📝",type:"once",due:"2026-08-10",done:false},
     {id:"m_dokusho",g:"must",sub:"よむ",title:"読書 5さつ",emoji:"📚",type:"count",target:5,count:0,due:"2026-08-05",done:false},
     {id:"m_iedoku",g:"must",sub:"よむ",title:"家読 この本読んだよ",emoji:"📖",type:"once",due:"2026-07-31",done:false},
@@ -593,8 +596,8 @@ function countStep(id,d){if(!guardChild())return;const t=S.tasks.find(x=>x.id===
     setTimeout(()=>celebrate(`${t.target}さつ よんだ！`),220);setTimeout(()=>renderAll(),900);return;}
   if(d>0)celebrate(`${t.count}さつめ！`);save();renderAll();}
 function freelog(id){if(!guardChild())return;const t=S.tasks.find(x=>x.id===id);if(!t)return;t.count=(t.count||0)+1;reward();addStamp(t.emoji,"じしゅ学習");celebrate("じしゅ学習 えらい！");save();renderAll();}
-function editDue(id){if(!guardChild())return;const t=S.tasks.find(x=>x.id===id);if(!t)return;const v=prompt("いつ やる？（れい：2026-08-05）",t.due||ymd(today()));
-  if(v&&/^\d{4}-\d{2}-\d{2}$/.test(v)){t.due=v;save();renderAll();}else if(v){alert("2026-08-05 の かたちで いれてね");}}
+function editDue(id){if(ROLE!=="parent"){toast("おうちの人が かえられます");return;}const t=S.tasks.find(x=>x.id===id);if(!t)return;const v=prompt(t.title+" のしめきりを なおす（れい：2026-08-27）",t.due||ymd(today()));
+  if(v&&/^\d{4}-\d{2}-\d{2}$/.test(v)){t.due=v;save();renderAll();toast("しめきりを なおしました");}else if(v){alert("2026-08-27 の かたちで いれてね");}}
 function addOwn(){if(!guardChild())return;const name=prompt("なにを けいかくする？（れい：じゆうけんきゅうの下しらべ）");if(!name)return;
   const due=prompt("いつ やる？（れい：2026-08-10／なしでもOK）","");
   S.tasks.push({id:"c_"+Date.now(),g:"self",sub:"じぶんで",title:name,emoji:"⭐",type:"once",due:(due&&/^\d{4}-\d{2}-\d{2}$/.test(due))?due:null,done:false,custom:true});
@@ -725,7 +728,7 @@ function taskCard(t){
   if(t.type==="count")extra=`<div class="mini-bar"><i style="width:${Math.min(100,(t.count||0)/t.target*100)}%"></i></div>`;
   if(t.type==="freelog"&&t.note)extra=`<div style="font-size:12.5px;color:var(--ink-soft);margin-top:6px">${t.note}（これまで ${t.count||0}かい）</div>`;
   const canEdit=t.type==="once"&&t.g!=="done";
-  const editLink=canEdit?`<span class="editdue" onclick="event.stopPropagation();editDue('${t.id}')">日を かえる</span>`:"";
+  const editLink=canEdit?`<span class="editdue" onclick="event.stopPropagation();editDue('${t.id}')">✏️ しめきりを なおす</span>`:"";
   const clickable=t.type==="once"?`onclick="toggleTask('${t.id}')"`:"";
   const showEffort=!done&&t.g!=="done"&&t.type!=="daily"&&t.type!=="freelog";
   const et=didToday(t);

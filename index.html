@@ -153,6 +153,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .dstatus.over{color:var(--plum)} .dstatus.done{color:var(--mint)} .dstatus.daily{color:#A9843F} .dstatus.none{color:var(--ink-soft)}
 .editdue{font-size:12px;color:#A9C0C8;text-decoration:underline;text-underline-offset:2px;margin-left:8px;font-weight:500}
 .mini-bar{height:8px;border-radius:999px;background:#EEF3F5;overflow:hidden;margin-top:8px;max-width:160px}
+.cnote{font-size:12.5px;color:var(--ink-soft);font-weight:700;font-family:"Zen Maru Gothic";margin-top:5px}
 .mini-bar>i{display:block;height:100%;background:var(--sun);border-radius:999px}
 .check{width:36px;height:36px;border-radius:12px;border:2.5px solid var(--line);flex:none;display:grid;place-items:center;font-size:20px;color:transparent;transition:all .2s;background:#fff}
 .card.is-done .check{background:var(--mint);border-color:var(--mint);color:#fff}
@@ -221,6 +222,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .dd-item.effort{border-color:#FCE1B8}
 .dd-item.effort b{background:#FFF1DC;color:var(--sun-deep)}
 .cal .cell.sel{box-shadow:0 0 0 3px var(--sun);z-index:1}
+.dd-edit{flex:none;background:#FFF4E4;border:1.5px solid #FCE1B8;border-radius:999px;padding:6px 13px;font-family:"Zen Maru Gothic";font-weight:700;font-size:12.5px;color:#A9843F;margin-left:auto}
+.dd-top .dd-close{margin-left:8px}
+.dd-edit-panel{margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+.dd-edit-h{font-size:12.5px;color:var(--ink-soft);font-family:"Zen Maru Gothic";font-weight:700;margin-bottom:8px}
+.ec-wrap{display:flex;gap:7px;flex-wrap:wrap;max-height:118px;overflow-y:auto}
+.ec{background:#F6FAFB;border:1.5px solid var(--line);border-radius:999px;padding:8px 13px;font-family:"Zen Maru Gothic";font-weight:700;font-size:13px;color:var(--ink)}
+.ec.on{background:var(--mint-soft);border-color:#9FDCC4;color:var(--mint)}
 .effort{margin-top:9px;background:#FFF4E4;border:1.5px solid #FCE1B8;border-radius:11px;padding:8px 15px;font-family:"Zen Maru Gothic";font-weight:700;font-size:13.5px;color:#A9843F;transition:transform .12s}
 .effort:active{transform:scale(.95)}
 .effort.on{background:var(--mint-soft);border-color:#C8EBDC;color:var(--mint)}
@@ -445,10 +453,10 @@ function defaults(){return{
   tasks:[
     {id:"m_koku",g:"must",sub:"夏マスター",title:"国語",emoji:"📕",type:"once",due:"2026-07-22",done:true},
     {id:"m_eigo",g:"must",sub:"夏マスター",title:"英語",emoji:"📘",type:"once",due:"2026-07-19",done:true},
-    {id:"m_sansu",g:"must",sub:"夏マスター",title:"算数",emoji:"📗",type:"once",due:"2026-08-05",done:false},
+    {id:"m_sansu",g:"must",sub:"夏マスター",title:"算数",emoji:"📗",type:"count",unit:"ページ",target:31,count:0,due:"2026-08-05",done:false},
     {id:"m_shakai",g:"must",sub:"夏マスター",title:"社会",emoji:"📙",type:"once",due:"2026-07-31",done:false},
     {id:"m_rika",g:"must",sub:"夏マスター",title:"理科",emoji:"📓",type:"once",due:"2026-07-31",done:false},
-    {id:"m_kanji",g:"must",sub:"トレーニング",title:"漢字計算ブック",emoji:"✏️",type:"once",due:"2026-07-31",done:false},
+    {id:"m_kanji",g:"must",sub:"トレーニング",title:"漢字計算ブック",emoji:"✏️",type:"count",unit:"ページ",target:18,count:10,base:10,due:"2026-07-31",done:false},
     {id:"m_ediary",g:"must",sub:"かく",title:"絵日記 1まい",emoji:"🎨",type:"once",due:"2026-08-03",done:false},
     {id:"m_zuko",g:"must",sub:"さくひん",title:"図工の作品",emoji:"🖌️",type:"once",due:"2026-08-27",done:false},
     {id:"m_kokusaku",g:"must",sub:"さくひん",title:"国語の作品",emoji:"📝",type:"once",due:"2026-08-10",done:false},
@@ -461,15 +469,24 @@ function defaults(){return{
     {id:"d_ongaku",g:"done",sub:"おんがく",title:"リコーダー れんしゅう",emoji:"🎵",type:"once",due:null,done:true},
     {id:"s_jishu",g:"self",sub:"じしゅ",title:"自主学習",emoji:"✨",type:"freelog",count:0,note:"夏マスターが おわったら、その日 きめる",done:false}
   ],
-  diary:{}, piano:{}, effort:{}, doneLog:{}, mood:0, treats:0, stamps:[], cheers:[], milestones:{}, todayPick:null, rev:0
+  diary:{}, piano:{}, effort:{}, doneLog:{}, pages:{}, mood:0, treats:0, stamps:[], cheers:[], milestones:{}, todayPick:null, rev:0
 };}
 let S=loadLocal();
 function loadLocal(){try{const r=Store.get(KEY);if(r)return migrate(JSON.parse(r));}catch(e){}return defaults();}
-function migrate(d){const def=defaults();const map={};(d.tasks||[]).forEach(t=>map[t.id]=t);
-  def.tasks=def.tasks.map(dt=>Object.assign(dt,map[dt.id]||{}));
+function migrate(d){const def=defaults();const pristine={};def.tasks.forEach(t=>pristine[t.id]=JSON.parse(JSON.stringify(t)));
+  const map={};(d.tasks||[]).forEach(t=>map[t.id]=t);
+  def.tasks=def.tasks.map(dt=>{const old=map[dt.id];if(!old)return dt;
+    if(pristine[dt.id].type==="count" && old.type!=="count"){return Object.assign({},pristine[dt.id],{count:pristine[dt.id].base||0,done:false});}
+    return Object.assign(dt,old);});
   (d.tasks||[]).filter(t=>t.custom).forEach(t=>{if(!def.tasks.find(x=>x.id===t.id))def.tasks.push(t);});
-  def.diary=d.diary||{};def.piano=d.piano||{};def.effort=d.effort||{};def.doneLog=d.doneLog||{};def.mood=d.mood||0;def.treats=d.treats||0;def.stamps=d.stamps||[];
-  def.cheers=d.cheers||[];def.milestones=d.milestones||{};def.todayPick=d.todayPick||null;def.rev=d.rev||0;return def;}
+  def.diary=d.diary||{};def.piano=d.piano||{};def.effort=d.effort||{};def.doneLog=d.doneLog||{};def.pages=d.pages||{};def.mood=d.mood||0;def.treats=d.treats||0;def.stamps=d.stamps||[];
+  def.cheers=d.cheers||[];def.milestones=d.milestones||{};def.todayPick=d.todayPick||null;def.rev=d.rev||0;
+  // ベースライン初期化（1回だけ）：ページ制でbase設定があり、まだ記録が無い課題に開始ページを入れる
+  if(!def.milestones.baseInit){
+    def.tasks.forEach(t=>{if(t.type==="count"&&(t.base||0)>0){const logged=Object.keys(def.pages[t.id]||{}).length>0;if(!logged&&(t.count||0)<t.base)t.count=t.base;}});
+    def.milestones.baseInit=1;
+  }
+  return def;}
 
 /* ---------- firebase sync ---------- */
 let roomRef=null, db=null, applyingRemote=false;
@@ -557,20 +574,50 @@ function checkMilestone(){
   if(allDone&&!S.milestones.all){S.milestones.all=1;addStamp("👑","ぜんぶ達成");setTimeout(()=>celebrate("かだい ぜんぶ<br>おわった！さいこう！👑"),950);}
 }
 function didToday(t){const k=ymd(today());return (S.effort[k]||[]).includes(t.id);}
+function markEffort(id,dateKey){const k=dateKey||ymd(today());if(!S.effort[k])S.effort[k]=[];if(!S.effort[k].includes(id))S.effort[k].push(id);}
 function toggleEffort(id){if(!guardChild())return;const t=S.tasks.find(x=>x.id===id);if(!t)return;
   const k=ymd(today());if(!S.effort[k])S.effort[k]=[];
   const i=S.effort[k].indexOf(id);
   if(i>=0){S.effort[k].splice(i,1);if(!S.effort[k].length)delete S.effort[k];save();renderAll();return;}
   S.effort[k].push(id);reward();addStamp(t.emoji,t.title);save();
   celebrate("きょうも やった！えらい！");renderAll();}
+// 過去の日に「やった記録」をつけ外し（案P：カレンダーから）
+function toggleEffortOn(id,k){if(!guardChild())return;
+  const t=S.tasks.find(x=>x.id===id);
+  if(t&&t.type==="count"){editPagesOn(id,k);return;}
+  if(!S.effort[k])S.effort[k]=[];
+  const i=S.effort[k].indexOf(id);
+  if(i>=0){S.effort[k].splice(i,1);if(!S.effort[k].length)delete S.effort[k];}
+  else{S.effort[k].push(id);reward();addStamp(t?.emoji||"⭐","あとから きろく");}
+  save();renderMainCal();showDay(k);renderKiroku();}
+function editPagesOn(id,k){const t=S.tasks.find(x=>x.id===id);if(!t)return;const u=t.unit||"ページ";const cur=pagesOn(id,k);
+  if(cur>0){ // 記録済み → 削除確認
+    if(confirm(`この日の ${t.title}（${cur}${u}）の きろくを 消しますか？`)){
+      t.count=Math.max(t.base||0,(t.count||0)-cur);setPagesOn(id,k,0);save();renderMainCal();showDay(k);renderKiroku();}
+    return;
+  }
+  const rest=t.target-(t.count||0);
+  const v=prompt(`この日、${t.title}を なんページ やった？（のこり ${rest}${u}）`,"");
+  const n=parseInt(v,10);
+  if(!v||isNaN(n)||n<=0)return;
+  const add=Math.min(n,rest);
+  t.count=(t.count||0)+add;setPagesOn(id,k,add);reward();addStamp(t.emoji,t.title);
+  save();renderMainCal();showDay(k);renderKiroku();}
+function toggleDiaryOn(k){if(!guardChild())return;if(S.diary[k])delete S.diary[k];else{S.diary[k]=true;reward();}save();renderMainCal();renderTodayBtns();showDay(k);renderKiroku();}
+function togglePianoOn(k){if(!guardChild())return;if(S.piano[k])delete S.piano[k];else{S.piano[k]=(k===ymd(today()))?"on":"late";reward();}save();renderMainCal();renderTodayBtns();showDay(k);renderKiroku();}
 function logDone(id){const k=ymd(today());if(!S.doneLog[k])S.doneLog[k]=[];if(!S.doneLog[k].includes(id))S.doneLog[k].push(id);}
 function dayItems(k){
   const out=[];
   (S.doneLog[k]||[]).forEach(id=>{const t=S.tasks.find(x=>x.id===id);if(t)out.push({emoji:t.emoji,label:t.title,type:"done"});});
   (S.effort[k]||[]).forEach(id=>{const t=S.tasks.find(x=>x.id===id);if(t&&!(S.doneLog[k]||[]).includes(id))out.push({emoji:t.emoji,label:t.title,type:"effort"});});
+  Object.keys(S.pages||{}).forEach(id=>{const n=(S.pages[id]||{})[k];if(n){const t=S.tasks.find(x=>x.id===id);if(t)out.push({emoji:t.emoji,label:`${t.title} ${n}${t.unit||"ページ"}`,type:"effort"});}});
   if(S.diary[k])out.push({emoji:"📔",label:"ひとこと日記",type:"done"});
   if(S.piano[k])out.push({emoji:"🎹",label:"ピアノ"+(S.piano[k]==="late"?"（🔁とりもどし）":""),type:"done"});
   return out;
+}
+// 過去日に追加できる「がんばり項目」候補（完了済み一回課題は除く）
+function effortCandidates(){
+  return S.tasks.filter(t=>t.g==="must"&&t.type!=="daily").filter(t=>!(t.type==="once"&&t.done));
 }
 
 function toggleTask(id){if(!guardChild())return;const t=S.tasks.find(x=>x.id===id);if(!t||t.type!=="once")return;
@@ -590,11 +637,15 @@ function markCardDone(id){
     el.classList.add("is-done","just-done");
   });
 }
+function pagesOn(id,k){return (S.pages[id]&&S.pages[id][k])||0;}
+function setPagesOn(id,k,n){if(!S.pages[id])S.pages[id]={};if(n>0)S.pages[id][k]=n;else{delete S.pages[id][k];if(!Object.keys(S.pages[id]).length)delete S.pages[id];}}
 function countStep(id,d){if(!guardChild())return;const t=S.tasks.find(x=>x.id===id);if(!t)return;const was=isDone(t);
-  t.count=Math.max(0,Math.min(t.target,(t.count||0)+d));if(d>0)reward();
+  const nc=Math.max(t.base||0,Math.min(t.target,(t.count||0)+d));const delta=nc-(t.count||0);t.count=nc;
+  if(delta!==0){const k=ymd(today());setPagesOn(id,k,Math.max(0,pagesOn(id,k)+delta));}
+  if(d>0)reward();
   if(!was&&isDone(t)){addStamp(t.emoji,t.title);logDone(id);checkMilestone();markCardDone(id);save();
-    setTimeout(()=>celebrate(`${t.target}さつ よんだ！`),220);setTimeout(()=>renderAll(),900);return;}
-  if(d>0)celebrate(`${t.count}さつめ！`);save();renderAll();}
+    setTimeout(()=>celebrate(`${t.title} ぜんぶ できた！`),220);setTimeout(()=>renderAll(),900);return;}
+  if(d>0){const u=t.unit||"こ";celebrate(`${t.count}${u}まで すすんだ！`);}save();renderAll();}
 function freelog(id){if(!guardChild())return;const t=S.tasks.find(x=>x.id===id);if(!t)return;t.count=(t.count||0)+1;reward();addStamp(t.emoji,"じしゅ学習");celebrate("じしゅ学習 えらい！");save();renderAll();}
 function editDue(id){if(ROLE!=="parent"){toast("おうちの人が かえられます");return;}const t=S.tasks.find(x=>x.id===id);if(!t)return;const v=prompt(t.title+" のしめきりを なおす（れい：2026-08-27）",t.due||ymd(today()));
   if(v&&/^\d{4}-\d{2}-\d{2}$/.test(v)){t.due=v;save();renderAll();toast("しめきりを なおしました");}else if(v){alert("2026-08-27 の かたちで いれてね");}}
@@ -649,18 +700,36 @@ function renderMainCal(){
 }
 function showDay(k,quiet){
   const dd=document.getElementById("dayDetail");if(!dd)return;
+  const editing=dd.dataset.k===k && dd.dataset.edit==="1";
   dd.dataset.k=k;dd.classList.add("show");document.body.classList.add("sheet-open");
+  dd.dataset.edit=editing?"1":"0";
   document.querySelectorAll("#mainCal .cell").forEach(c=>c.classList.remove("sel"));
   const cell=document.querySelector(`#mainCal .cell[data-k="${k}"]`);if(cell)cell.classList.add("sel");
   const items=dayItems(k),d=parse(k);
-  const head=`<div class="dd-top"><div class="dd-h">${d.getMonth()+1}/${d.getDate()}<span>${WD[d.getDay()]}</span></div>`
+  const canEdit=ROLE==="child"&&parse(k)<=today();
+  const editBtn=canEdit?`<button class="dd-edit" onclick="toggleDayEdit('${k}')">${editing?"とじる":"✏️ あとから きろく"}</button>`:"";
+  let html=`<div class="dd-top"><div class="dd-h">${d.getMonth()+1}/${d.getDate()}<span>${WD[d.getDay()]}</span></div>`
     +(items.length?`<div class="dd-list">`+items.map(i=>`<div class="dd-item ${i.type}"><span>${i.emoji}</span>${i.label}<b>${i.type==="done"?"できた":"やった"}</b></div>`).join("")+`</div>`
                   :`<div class="dd-empty">この日は まだ きろくが ないよ</div>`)
-    +`<button class="dd-close" onclick="closeDay()">×</button></div>`;
-  dd.innerHTML=head;
+    +editBtn+`<button class="dd-close" onclick="closeDay()">×</button></div>`;
+  if(editing){
+    const eff=S.effort[k]||[];
+    const chips=[];
+    chips.push(`<button class="ec ${S.diary[k]?'on':''}" onclick="toggleDiaryOn('${k}')">📔 日記</button>`);
+    chips.push(`<button class="ec ${S.piano[k]?'on':''}" onclick="togglePianoOn('${k}')">🎹 ピアノ</button>`);
+    effortCandidates().forEach(t=>{
+      if(t.type==="count"){const n=pagesOn(t.id,k);
+        chips.push(`<button class="ec ${n>0?'on':''}" onclick="toggleEffortOn('${t.id}','${k}')">${t.emoji} ${t.title}${n>0?` ${n}${t.unit||"ページ"}`:""}</button>`);}
+      else{const on=(S.effort[k]||[]).includes(t.id)||(S.doneLog[k]||[]).includes(t.id);
+        chips.push(`<button class="ec ${on?'on':''}" onclick="toggleEffortOn('${t.id}','${k}')">${t.emoji} ${t.title}</button>`);}
+    });
+    html+=`<div class="dd-edit-panel"><div class="dd-edit-h">この日 やったことを おそう</div><div class="ec-wrap">${chips.join("")}</div></div>`;
+  }
+  dd.innerHTML=html;
 }
+function toggleDayEdit(k){const dd=document.getElementById("dayDetail");dd.dataset.edit=dd.dataset.edit==="1"?"0":"1";showDay(k);}
 function closeDay(){const dd=document.getElementById("dayDetail");if(!dd)return;
-  dd.classList.remove("show");delete dd.dataset.k;document.body.classList.remove("sheet-open");
+  dd.classList.remove("show");delete dd.dataset.k;dd.dataset.edit="0";document.body.classList.remove("sheet-open");
   document.querySelectorAll("#mainCal .cell").forEach(c=>c.classList.remove("sel"));}
 function renderTodayBtns(){
   const dk=!!S.diary[ymd(today())], pk=!!S.piano[ymd(today())];
@@ -721,16 +790,16 @@ function switchRole(){document.getElementById("gate").classList.add("on");window
 function taskCard(t){
   const di=dateInfo(t),done=isDone(t);
   let right="";
-  if(t.type==="count")right=`<div class="countbtns"><button class="rbtn" onclick="event.stopPropagation();countStep('${t.id}',-1)">−</button><span class="cval">${t.count||0}/${t.target}</span><button class="rbtn plus" onclick="event.stopPropagation();countStep('${t.id}',1)">＋</button></div>`;
-  else if(t.type==="freelog")right=`<button class="rbtn plus" style="width:auto;padding:0 15px;height:36px;font-size:14px;font-family:'Zen Maru Gothic'" onclick="event.stopPropagation();freelog('${t.id}')">やった＋</button>`;
+  if(t.type==="count")right=`<div class="countbtns"><button class="rbtn" onclick="event.stopPropagation();countStep('${t.id}',-1)">−</button><span class="cval">${t.count||0}/${t.target}</span><button class="rbtn plus" onclick="event.stopPropagation();countStep('${t.id}',1)">＋</button></div>`;  else if(t.type==="freelog")right=`<button class="rbtn plus" style="width:auto;padding:0 15px;height:36px;font-size:14px;font-family:'Zen Maru Gothic'" onclick="event.stopPropagation();freelog('${t.id}')">やった＋</button>`;
   else right=`<div class="check">✓</div>`;
   let extra="";
-  if(t.type==="count")extra=`<div class="mini-bar"><i style="width:${Math.min(100,(t.count||0)/t.target*100)}%"></i></div>`;
+  if(t.type==="count"){const u=t.unit||"こ";const left=t.target-(t.count||0);
+    extra=`<div class="mini-bar"><i style="width:${Math.min(100,(t.count||0)/t.target*100)}%"></i></div><div class="cnote">${t.count||0}/${t.target}${u}${left>0?`　のこり ${left}${u}`:"　ぜんぶ できた！"}</div>`;}
   if(t.type==="freelog"&&t.note)extra=`<div style="font-size:12.5px;color:var(--ink-soft);margin-top:6px">${t.note}（これまで ${t.count||0}かい）</div>`;
   const canEdit=t.type==="once"&&t.g!=="done";
   const editLink=canEdit?`<span class="editdue" onclick="event.stopPropagation();editDue('${t.id}')">✏️ しめきりを なおす</span>`:"";
   const clickable=t.type==="once"?`onclick="toggleTask('${t.id}')"`:"";
-  const showEffort=!done&&t.g!=="done"&&t.type!=="daily"&&t.type!=="freelog";
+  const showEffort=!done&&t.g!=="done"&&t.type!=="daily"&&t.type!=="freelog"&&t.type!=="count";
   const et=didToday(t);
   const effortBtn=showEffort?`<button class="effort ${et?'on':''}" onclick="event.stopPropagation();toggleEffort('${t.id}')">${et?'きょう やった ✓':'きょう やった'}</button>`:"";
   return `<div class="card ${done?'is-done':''}" data-tid="${t.id}" ${clickable}>
@@ -817,7 +886,7 @@ function go(p){closeDay();document.querySelectorAll(".page").forEach(el=>el.clas
   document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("on",b.dataset.p===p));window.scrollTo(0,0);}
 
 /* expose to window (for onclick handlers) */
-Object.assign(window,{go,toggleTask,countStep,freelog,editDue,addOwn,toggleDiaryToday,togglePianoToday,makeupPiano,toggleEffort,showDay,closeDay,calTab,resetAll,sendCheer,sendMessage,chaiTap,hideChai,showChai,selectRole,switchRole});
+Object.assign(window,{go,toggleTask,countStep,freelog,editDue,addOwn,toggleDiaryToday,togglePianoToday,makeupPiano,toggleEffort,toggleEffortOn,toggleDiaryOn,togglePianoOn,toggleDayEdit,showDay,closeDay,calTab,resetAll,sendCheer,sendMessage,chaiTap,hideChai,showChai,selectRole,switchRole});
 
 if(Store.get("chai_hidden")==="1"){const fc=document.getElementById("floatChai");if(fc)fc.style.display="none";document.getElementById("fcShow").classList.add("on");}
 if(!ROLE){document.getElementById("gate").classList.add("on");}else{applyRole();}
